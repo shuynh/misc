@@ -8,7 +8,7 @@
 
 $(document).ready(function(){
 
-    // Makes sure we're not on the account or help page
+    // Makes sure it's not the account or help page
     var pName = window.location.pathname;
     if (pName.indexOf('/account') === -1 && pName.indexOf('/help') === -1) {
 
@@ -18,9 +18,8 @@ $(document).ready(function(){
             viewsList   = $('#app_menu');
 
         $('head').append('<style>' + css + '</style>');
-        //$('head').append('<link rel="stylesheet" href="//dl.dropbox.com/u/138203/reflow/reflow.user.css">');
 
-        // Preliminary DOM Refactoring
+        // DOM Refactor i guess
         $('body').prepend('<header></header>');
         viewsList.append('<section id="flow_views"><h4>Views</h4><ol></ol></section><section id="my_flows"><h4>Flows</h4></section><section id="flow_filter"><h4>Filters</h4><ol></ol></section>');
 
@@ -49,66 +48,6 @@ $(document).ready(function(){
                 }
             }
 
-            // Move the filters list
-            if (!filtersMoved && filtersList.length > 1) {
-                filtersList.each(function () {
-                    $(this).appendTo($('#flow_filter ol'));
-                });
-                $('#flow_filter a')
-                    .wrap('<li>')
-                    .removeClass('app-button app-button-bevel ui-corner-left ui-state-default')
-                    .find('span').remove();
-                filtersMoved = true;
-                $('#flow_filter .ui-state-active')
-                    .removeClass('ui-state-active')
-                    .parent().addClass('active_item');
-            }
-
-
-            // Move the users
-            if (!usersListMoved) {
-                usersClick.click();
-                usersList = $("#dashboard_user_list");
-                if (usersList.length === 1) {
-
-                    // Append me
-                    $('header').append('<div class="user"><div class="user_avatar" style="background-image:' + $('#status-panel .avatar').css('background-image') + ';"></div><div class="user_name">' + $('.user_info').find('.name').text() + '</div></div>');
-                    userAvatars['user_' + window.userId] = $('#status-panel .avatar').css('background-image');
-                    // Append everyone else
-                    $('#dashboard_user_list .user').each(function() {
-                        var t = $(this),
-                            i = t.attr('id').replace('dashboard_', '');
-                        $('#people').append('<div id="' + i + '" class="' + t.attr('class') + '"><div class="user_name" title="' + t.find('.last_activity').text() + '">' + t.find('.user_name').text() + '</div></div>');
-                        userAvatars[i] = t.find('.user_icon').css('background-image');
-                    });
-                    // Append people manager
-                    $('.people-manager')
-                        .removeClass('app-button ui-corner-all ui-state-default ui-state-hover')
-                        .find('.ui-icon')
-                        .remove();
-                    $('#people').append($('.people-manager'));
-                    usersClick.click();
-                    // Tooltip for status
-                    $('#people div[title]').qtip({
-                        style: {
-                            name: 'dark',
-                            tip: {
-                                corner: 'bottomMiddle'
-                            }
-                        },
-                        position: {
-                            corner: {
-                                target: 'topMiddle',
-                                tooltip: 'bottomMiddle'
-                            },
-                            adjust: {
-                                y: -5
-                            }
-                        }
-                    });
-                    usersListMoved = true;
-                }
-            }
 
             if (filtersMoved && flowListMoved && viewsMoved && usersListMoved) {
 
@@ -123,24 +62,6 @@ $(document).ready(function(){
                     t.closest('li').addClass('active_item');
                 });
 
-                // Scroll to new chat message when sending new chat
-                $('.chat-input-form').submit(function() {
-                    chatLines.scrollTop = chatLines.scrollHeight;
-                    return false;
-                });
-
-                // Scroll to new chat message when sending new chat
-                $('#chat_app_input').keyup(function(e) {
-                    if (e.keyCode === 13) {
-                        var delayIt = setInterval(function() {
-                            if (chatLines.scrollTop !== chatLines.scrollHeight) {
-                                chatLines.scrollTop = chatLines.scrollHeight;
-                                clearInterval(delayIt);
-                            }
-                        }, 2000);
-                    }
-                    return false;
-                });
 
             }
 
@@ -149,51 +70,13 @@ $(document).ready(function(){
 
         interval = window.setInterval(moveTheDOM, 1500);
 
-        // Annoying but dealing with flow heights
+        //  some height stuff 
         $(window).resize(function() {
             var top      = $('#people').outerHeight() + $('header').height(),
                 contents = $('.app-contents');
             contents.height(contents.height() - top);
             return false;
         });
-
-        // Really annoying and seems really heavy. Checking to make sure all the
-        // elements exist before trying to resize the chat div. Also fires on window
-        // resize, which happens automatically every few seconds. Annoying!
-        $(window).resize(function() {
-            var setChatHeight = function() {
-                var chat     = $('#chat_app_lines'),
-                    win      = $(window).height(),
-                    people   = $('#people').outerHeight(),
-                    header   = $('header').outerHeight(),
-                    textarea = $('#chat_app_input_area').outerHeight(),
-                    splitter = $('#main_splitter');
-                if (chat.children().length > 0) {
-                    if (header && people && textarea) {
-                        chat.height(win - (header + people + textarea));
-                        clearInterval(heightInterval);
-                    }
-                }
-                return false;
-            }
-            heightInterval = window.setInterval(setChatHeight, 1500);
-        });
-
-        // Set avatars for chat messages
-        var setUserAvatars = function() {
-            var chat = $('#chat_app_lines'), curEl, userClass;
-            if (chat.length > 0) {
-                chat.children().not('.separator, .reflowed').each(function() {
-                    curEl     = $(this);
-                    userClass = curEl.find('.nick').attr('class').split(' ')[1];
-                    if (typeof userAvatars[userClass] !== 'undefined') {
-                       curEl.addClass('reflowed').prepend('<span class="user_avatar" style="background-image:' + userAvatars[userClass] + ';"></span>');
-                       curEl.find('.chat_line_header').prependTo(curEl.find('.chat_line_content'));
-                    }
-                });
-            }
-        }
-        avatarsInterval = window.setInterval(setUserAvatars, 1000);
 
     }
 
