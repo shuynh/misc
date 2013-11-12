@@ -1,17 +1,12 @@
 body {
-  background: #63818a;
-  background: -moz-linear-gradient(top, #63818a 0%, #73939b 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #63818a), color-stop(100%, #73939b));
-  background: -webkit-linear-gradient(top, #63818a 0%, #73939b 100%);
-  background: -o-linear-gradient(top, #63818a 0%, #73939b 100%);
-  background: -ms-linear-gradient(top, #63818a 0%, #73939b 100%);
-  background: linear-gradient(top, #63818a 0%, #73939b 100%); }
+  background: #f0f1f4;
+  background: linear-gradient(top, #f0f1f4 0%, #73939b 100%); }
 
 h1, h2, h3, h4, h5, h6 {
   color: #4f7b94; }
 
 #top-panel {
-  background: none; }
+  background: url(http://cl.ly/image/2O3k2G3e1O2a/Screen%20Shot%202013-06-13%20at%209.54.04%20PM.png) repeat-x;}
   #top-panel td#login-field span a {
     background: none; }
   #top-panel td #searchform a {
@@ -21,9 +16,9 @@ h1, h2, h3, h4, h5, h6 {
   #top-panel td > a {
     background: url("https://secure-a.vimeocdn.com/logo.svg") 0 0 no-repeat;
     display: block;
-    width: 130px;
+    width: 140px;
     height: 40px;
-    margin: 10px 0 10px 10px; }
+    margin: 12px 0 2px 10px; }
     #top-panel td > a img {
       display: none; }
 
@@ -67,10 +62,20 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 0; }
 
 #description div {
-  font-size: 1.3em; }
+  display:none
+  }
 
 #footer {
-  border-top: 1px solid #ccc; }
+  display:none;
+  }
+
+#right-top-nav {
+  display:none;
+}
 
 #view-message #description a img {
   padding-right: 4px; }
+
+.yui-skin-sam .yui-ac {
+  display: none; }
+
