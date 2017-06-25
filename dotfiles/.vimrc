@@ -1,3 +1,23 @@
+execute pathogen#infect()
+call pathogen#helptags()
+
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.DS_Store$', '\.vim$', '\.gitignore$']
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'editorconfig/editorconfig-vim'
+
 syntax on
 syntax enable
 set smartindent
@@ -40,3 +60,10 @@ function! InsertTabWrapper()
 endfunction
    
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
+map <C-Left> <Esc>:tabprev<CR>
+map <C-Right> <Esc>:tabnext<CR>
+map <C-n> <Esc>:tabnew
+
+vmap <C-x> :!pbcopy<CR>  
+vmap <C-c> :w !pbcopy<CR><CR> 
