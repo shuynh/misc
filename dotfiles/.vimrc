@@ -1,27 +1,16 @@
 execute pathogen#infect()
-call pathogen#helptags()
-
-autocmd VimEnter * NERDTree
-autocmd VimEnter * wincmd p
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\.DS_Store$', '\.vim$', '\.gitignore$']
+call pathogen#infect()
+filetype plugin indent on
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'editorconfig/editorconfig-vim'
-
 syntax on
 syntax enable
+
+set noai
 set smartindent
-set autoindent
+set noautoindent
 set expandtab
 set tabstop=2
 set shiftwidth=4
@@ -67,3 +56,10 @@ map <C-n> <Esc>:tabnew
 
 vmap <C-x> :!pbcopy<CR>  
 vmap <C-c> :w !pbcopy<CR><CR> 
+au BufNewFile,BufRead Jenkinsfile setf groovy
+
+set paste
+set mouse=a
+
+" Automatically convert CRLF to LF on file open
+autocmd BufWritePre * :silent! %s/\r$//
