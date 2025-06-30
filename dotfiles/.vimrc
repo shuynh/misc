@@ -1,7 +1,3 @@
-execute pathogen#infect()
-call pathogen#infect()
-filetype plugin indent on
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -40,26 +36,28 @@ nnoremap <Leader>gd :call MyDiffToggle()<cr>
 nnoremap <Leader>f :Ack --smart-case<space>
 
 function! InsertTabWrapper()
-     let col = col('.') - 1 
+     let col = col('.') - 1
      if !col || getline('.')[col - 1] !~ '\k'
          return "\<tab>"
      else
          return "\<c-p>"
      endif
 endfunction
-   
+
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
 map <C-Left> <Esc>:tabprev<CR>
 map <C-Right> <Esc>:tabnext<CR>
 map <C-n> <Esc>:tabnew
 
-vmap <C-x> :!pbcopy<CR>  
-vmap <C-c> :w !pbcopy<CR><CR> 
+vmap <C-x> :!pbcopy<CR>
+vmap <C-c> :w !pbcopy<CR><CR>
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 set paste
-set mouse=a
+"set mouse=a
+set mouse=
 
 " Automatically convert CRLF to LF on file open
 autocmd BufWritePre * :silent! %s/\r$//
+
