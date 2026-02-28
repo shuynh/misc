@@ -1,7 +1,23 @@
+# Only run this file if in Bash
+[ -n "$BASH_VERSION" ] || return 0
+
+export PATH=/usr/local/bin:$PATH
+export CLICOLOR=1
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+export PATH=~/.local/bin:$PATH
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+export PS1="\[\033[35m\]\[\033[m\]\[\033[36m\]\u\[\033[35m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] ~> "
 export PROMPT_COMMAND='history -a; history -c; history -r'
 
-# this will prob cause problems later
-#export AWS_SHARED_CREDENTIALS_FILE=~/.aws/config
+#eval "$(/opt/homebrew/bin/brew shellenv)"
+#[ -r ~/.bashrc ] && source ~/.bashrc
+
+# iterm stuff
+export HISTSIZE=100000
+export HISTFILESIZE=200000
+shopt -s histappend
+export PROMPT_COMMAND='history -a; history -c; history -r'
 
 alias ls="ls -lSrh"
 alias ..="cd ../"
@@ -32,10 +48,6 @@ alias dos2plan='dos2unix .local_setup && source .local_setup && tf init && tf pl
 #alias docker_kill="docker stop $(docker ps -aq)"
 alias whatsmyip="curl ifconfig.me | pbcopy"
 
-#parse_git_branch() {
-#  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-#}
-
 parse_git_branch() {
   git rev-parse --is-inside-work-tree &>/dev/null || return
   local branch
@@ -47,15 +59,9 @@ parse_git_branch() {
 
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
-export PS1="\[\033[35m\]\[\033[m\]\[\033[36m\]\u\[\033[35m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] ~> "
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
 fi
-
-export GITLAB_USER="steven.huynh"
 
 
 cursor() {
@@ -105,4 +111,3 @@ gl() {
 extract-destroys() {
     python3 /Users/steven.huynh/Projects/scripts/extract_timestamp_destroys.py "$@"
 }
-

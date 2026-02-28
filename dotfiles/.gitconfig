@@ -1,0 +1,14 @@
+[alias]
+  st = status
+  br = branch
+  co = checkout
+	ll = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[user]
+	name = shuynh
+	email = steven@urethrafranklin.org
+
+[core]
+  editor = /usr/bin/vim
+	autocrlf = true
+	whitespace = cr-at-eol
